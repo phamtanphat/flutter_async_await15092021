@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 class DemoAsynchronous extends StatefulWidget {
 
@@ -13,30 +14,19 @@ class _DemoAsynchronousState extends State<DemoAsynchronous> {
   @override
   void didUpdateWidget(covariant DemoAsynchronous oldWidget) {
     super.didUpdateWidget(oldWidget);
-    xuly();
+
   }
 
-  void xuly() {
-    int a = 0;
-    int b = 5;
-
-    // // 5 phut
-    // a + b : sau 2 giay co ket qua
-    // ketqua + 5 : sau 2 giay co ket qua
-    var data = Future.delayed(Duration(seconds: 2),(){
-      Completer completer = new Completer();
+  Future<int> getRandom(){
+    return Future.delayed(Duration(seconds: 2) , (){
+      Completer<int> completer = new Completer();
       var number = Random().nextInt(10);
       if (number % 2 == 0){
-        completer.complete("Success");
+        completer.complete(number);
       }else{
-        completer.completeError("Fail");
+        completer.completeError("Loi do so le");
       }
       return completer.future;
-    });
-    data.then((value){
-      print(value);
-    }).catchError((onError){
-      print("Loi" + onError.toString());
     });
   }
 
@@ -45,6 +35,22 @@ class _DemoAsynchronousState extends State<DemoAsynchronous> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Demo asynchronous"),
+      ),
+      body: Container(
+        child: FutureBuilder<int>(
+          future: getRandom(),
+          builder: (context , snapshot){
+            if (snapshot.hasData){
+              return Text(snapshot.data.toString());
+            }else if (snapshot.hasError){
+              return Text(snapshot.error.toString());
+            }else{
+              return CircularProgressIndicator(
+                color: Colors.blue,
+              );
+            }
+          },
+        ),
       ),
     );
   }
