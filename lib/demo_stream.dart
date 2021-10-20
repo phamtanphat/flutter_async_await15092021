@@ -58,15 +58,19 @@ class _DemoStreamPageState extends State<DemoStreamPage> {
     //   print(event);
     // });
 
-    Stream<int> stream = Stream.periodic(Duration(seconds: 1),(value) => value);
+
     
-    stream.transform(StreamTransformer.fromHandlers(handleData: (data , sink){
-      if (data % 2 == 0){
-        sink.add(data);
-      }
-    })).listen((event) {
-      print(event);
-    });
+    // stream.transform(StreamTransformer.fromHandlers(handleData: (data , sink){
+    //   if (data % 2 == 0){
+    //     sink.add(data);
+    //   }
+    // })).listen((event) {
+    //   print(event);
+    // });
+  }
+
+  Stream handleData(){
+    return Stream.periodic(Duration(seconds: 1),(value) => value);
   }
 
   @override
@@ -76,7 +80,20 @@ class _DemoStreamPageState extends State<DemoStreamPage> {
         title: Text("Demo Stream"),
       ),
       body: Container(
-
+        child: StreamBuilder(
+          stream: handleData(),
+          builder: (context , snapshot){
+            if (snapshot.hasError){
+              return Text("Loi");
+            }
+            switch(snapshot.connectionState){
+              case ConnectionState.none :
+                return Text("Not connect stream or null");
+              default :
+                return SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
