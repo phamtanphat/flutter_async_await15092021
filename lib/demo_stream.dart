@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 class DemoStreamPage extends StatefulWidget {
@@ -44,16 +45,26 @@ class _DemoStreamPageState extends State<DemoStreamPage> {
     //   subscription.resume();
     // });
 
-    StreamController<int> data = StreamController();
+    // StreamController<int> data = StreamController();
+    //
+    //
+    // data.sink.add(1);
+    // data.sink.add(2);
+    // data.sink.add(3);
+    // data.sink.add(4);
+    //
+    //
+    // data.stream.listen((event) {
+    //   print(event);
+    // });
 
-
-    data.sink.add(1);
-    data.sink.add(2);
-    data.sink.add(3);
-    data.sink.add(4);
-
-
-    data.stream.listen((event) {
+    Stream<int> stream = Stream.periodic(Duration(seconds: 1),(value) => value);
+    
+    stream.transform(StreamTransformer.fromHandlers(handleData: (data , sink){
+      if (data % 2 == 0){
+        sink.add(data);
+      }
+    })).listen((event) {
       print(event);
     });
   }
