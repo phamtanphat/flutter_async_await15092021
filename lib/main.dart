@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_async_await15092021/demo_asynchronous.dart';
+import 'package:flutter_async_await15092021/demo_stream.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: DemoAsynchronous(),
+      home: DemoStreamPage(),
     );
   }
 }
