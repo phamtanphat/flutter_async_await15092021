@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 class DemoAsynchronous extends StatefulWidget {
 
@@ -13,19 +16,27 @@ class _DemoAsynchronousState extends State<DemoAsynchronous> {
     xuly();
   }
 
-  void xuly(){
+  void xuly() {
     int a = 0;
-    listenerData(a, (data){
-      print(data);
+    int b = 5;
+
+    // // 5 phut
+    // a + b : sau 2 giay co ket qua
+    // ketqua + 5 : sau 2 giay co ket qua
+    var data = Future.delayed(Duration(seconds: 2),(){
+      Completer completer = new Completer();
+      var number = Random().nextInt(10);
+      if (number % 2 == 0){
+        completer.complete("Success");
+      }else{
+        completer.completeError("Fail");
+      }
+      return completer.future;
     });
-  }
-
-
-  void listenerData(int a , Function function){
-    a = 10;
-    Future.delayed(Duration(seconds: 2) , (){
-      a += 2;
-      function(a);
+    data.then((value){
+      print(value);
+    }).catchError((onError){
+      print("Loi" + onError.toString());
     });
   }
 
