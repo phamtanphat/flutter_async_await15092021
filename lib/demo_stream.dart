@@ -28,17 +28,34 @@ class _DemoStreamPageState extends State<DemoStreamPage> {
     //   print(event);
     // });
     
-    Stream<int> stream = Stream.periodic(Duration(seconds: 1) , (value){
-      return value;
-    }).asBroadcastStream();
+    // Stream<int> stream = Stream.periodic(Duration(seconds: 1) , (value){
+    //   return value;
+    // });
+    //
+    // var subscription = stream.listen((event) {
+    //   print(event);
+    // });
+    //
+    // Future.delayed(Duration(seconds: 2) ,(){
+    //   subscription.pause();
+    // });
+    //
+    // Future.delayed(Duration(seconds: 4) ,(){
+    //   subscription.resume();
+    // });
 
-    stream.take(10).listen((event) {
+    StreamController<int> data = StreamController();
+
+
+    data.sink.add(1);
+    data.sink.add(2);
+    data.sink.add(3);
+    data.sink.add(4);
+
+
+    data.stream.listen((event) {
       print(event);
     });
-    stream.take(10).listen((event) {
-      print(event);
-    });
-
   }
 
   @override
